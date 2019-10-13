@@ -41,7 +41,7 @@ Release date : 2019-xx-xx
 [[assertj-core-3.14.0-contributors]]
 [.release-note-category]#icon:user[] Contributors#
 
-Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Rob Spieldenner and Clemens Grabmann.
+Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Rob Spieldenner and Clemens Grabmann.
 
 [[assertj-core-3.14.0-breaking-changes]]
 [.release-note-category]#icon:exclamation-triangle[] Breaking changes#
@@ -69,6 +69,8 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 
 - Prettify `allOf` and `anyOf` link:#assertj-core-3.14.0-combined-condition-description[combined conditions description]. (Edgar Asatryan)
 - Clearly differentiate top level objects in the new recursive comparison.
+- Show actual's stack trace in `hasRootCause` and `hasRootCauseMessage` to give users more information. (Oleksii Khomchenko)
+- Show actual's stack trace in `hasMessageMatching` and `hasMessageFindingMatch` to give users more information. (Stephen O'Rourke)
 - Update message text in `ShouldHaveSameSizeAs` to show both actual and expected collections. (Thami Inaflas)
 - Add link:#assertj-core-3.14.0-hamcrest-matching[`matching` syntactic sugar method] to use Hamcrest Matcher as Condition. (Jonas Berlin)
 - Update ByteBuddy to version 1.10.1.
