@@ -41,7 +41,7 @@ Release date : 2019-xx-xx
 [[assertj-core-3.14.0-contributors]]
 [.release-note-category]#icon:user[] Contributors#
 
-Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Rob Spieldenner and Clemens Grabmann.
+Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Sven Johansson, Rob Spieldenner and Clemens Grabmann.
 
 [[assertj-core-3.14.0-breaking-changes]]
 [.release-note-category]#icon:exclamation-triangle[] Breaking changes#
@@ -67,6 +67,7 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 [[assertj-core-3.14.0-improvements]]
 [.release-note-category]#icon:arrow-circle-up[] Improvements#
 
+- `ObjectAssert.extracting(String...)` learned to extract link:#assertj-core-3.14.0-extract-nested-map[nested map key field/property]. (Sven Johansson)
 - Prettify `allOf` and `anyOf` link:#assertj-core-3.14.0-combined-condition-description[combined conditions description]. (Edgar Asatryan)
 - Clearly differentiate top level objects in the new recursive comparison.
 - Show actual's stack trace in `hasRootCause` and `hasRootCauseMessage` to give users more information. (Oleksii Khomchenko)
@@ -381,6 +382,28 @@ assertThat(file).hasSize(2);
 
 // assertion will fail
 assertThat(file).hasSize(1);
+----
+
+[[assertj-core-3.14.0-extract-nested-map]]
+[.release-note-item]#`ObjectAssert.extracting(String...)` learned to extract nested map key field/property#
+
+`extracting` is now able to extract a deeply nested map key, before this improvement extracting a value by key was only supported for Map object under test (but not for a Map fields).
+
+Let's clarify things with a concrete example:
+[source,java,indent=0]
+----
+Jedi luke = new Jedi(new Name("Luke", "Skywalker"), 26);
+// setAttribute puts a new entry in attributes Map field 
+luke.setAttribute("side", "light");
+
+Jedi leia = new Jedi(new Name("Leia", "Skywalker"), 26);
+// setRelation puts a new entry in relations Map field 
+luke.setRelation("sister", leia);
+leia.setRelation("brother", luke);
+
+assertThat(luke).extracting("name.last", "attributes.side", 
+                            "relations.sister", "relations.sister.relations.brother")
+                .containsExactly("Skywalker", "light", leia, luke);
 ----
 
 ==== AssertJ Core 3.13.2 Release notes
