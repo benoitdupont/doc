@@ -74,7 +74,7 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 - Show actual's stack trace in `hasMessageMatching` and `hasMessageFindingMatch` to give users more information. (Stephen O'Rourke)
 - Update message text in `ShouldHaveSameSizeAs` to show both actual and expected collections. (Thami Inaflas)
 - Add link:#assertj-core-3.14.0-hamcrest-matching[`matching` syntactic sugar method] to use Hamcrest Matcher as Condition. (Jonas Berlin)
-- Update ByteBuddy to version 1.10.1.
+- Update ByteBuddy to version 1.10.2.
 - Fix javadoc typos and incorrect references. (Erhard Pointl, Stefano Cordio)
 - Use beautiful AssertJ's site code style for javadoc :)
 - Stop throwing an `IllegalArgumentException` when `isIn` and `isNotIn` are given an empty group of values.
