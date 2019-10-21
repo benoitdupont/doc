@@ -41,7 +41,7 @@ Release date : 2019-xx-xx
 [[assertj-core-3.14.0-contributors]]
 [.release-note-category]#icon:user[] Contributors#
 
-Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Sven Johansson, Rob Spieldenner and Clemens Grabmann.
+Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Sven Johansson, William Bakker, Rob Spieldenner and Clemens Grabmann.
 
 [[assertj-core-3.14.0-breaking-changes]]
 [.release-note-category]#icon:exclamation-triangle[] Breaking changes#
@@ -52,6 +52,7 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 [.release-note-category]#icon:plus-circle[] New features#
 
 - Add link:#assertj-core-3.14.0-bdd-assumptions[BDD assumptions]. (Gonzalo Müller Bravo)
+- Add link:#assertj-core-3.14.0-spliterator-assertions[`Spliterator` assertions]. (William Bakker)
 - Add link:#assertj-core-3.14.0-hasRootCauseMessage[`hasRootCauseMessage`] to `Throwable` assertions. (Oleksii Khomchenko)
 - Add syntax sugar link:#assertj-core-3.14.0-as-instance-of-assert-factory[`as(InstanceOfAssertFactory)`] to `Assertions` and `WithAssertions` for improved readability. (Stefano Cordio)
 - Add link:#assertj-core-3.14.0-extracting-string[`extracting(String, InstanceOfAssertFactory)`] to `Object` assertions. (Stefano Cordio)
@@ -102,6 +103,52 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 - Deprecate the confusing `containsOnlyElementsOf` in favor of `isSubsetOf` or `hasSameElementsAs`.
 - Deprecate `Map` assertions `extracting(Object)` and `extracting(Object...)` in favor of `extractingByKey(KEY)` and `extractingByKeys(KEY...)`, respectively. (Stefano Cordio)
 
+
+[[assertj-core-3.14.0-bdd-assumptions]]
+[.release-note-item]#Add BDD assumptions#
+
+Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
+
+The difference with the Assumptions class is that entry point methods are named `given` instead of `assumeThat`.
+
+Example:
+[source,java,indent=0]
+----
+String hobbit = "HOBBIT";
+List<String> fellowshipOfTheRing = list("Aragorn", "Gandalf", "Frodo", "Legolas");
+
+@Test
+public void given_the_assumption_is_not_met_the_test_is_skipped() {
+  given(hobbit).isEqualTo("ORC");
+  // ... following code is not executed, the test is skipped
+  then(fellowshipOfTheRing).contains("Sauron");
+}
+
+@Test
+public void given_the_assumption_is_met_the_test_is_executed() {
+  given(hobbit).isEqualTo("HOBBIT");
+  // ... following code is executed and fails!
+  then(fellowshipOfTheRing).doesNotContain("Sauron");
+}
+----
+
+[[assertj-core-3.14.0-spliterator-assertions]]
+[.release-note-item]#Add `Spliterator` assertions#
+
+Add `hasCharacteristics` and `hasOnlyCharacteristics` assertions for the link:https://docs.oracle.com/javase/8/docs/api/java/util/Spliterator.html?is-external=true[`Spliterator`] type.
+
+Example:
+[source,java,indent=0]
+----
+Spliterator<Integer> spliterator = Stream.of(1, 2, 3).spliterator();
+
+assertThat(spliterator).hasCharacteristics(Spliterator.SIZED, Spliterator.ORDERED)
+                       .hasOnlyCharacteristics(Spliterator.SIZED,
+                                               Spliterator.SUBSIZED,
+                                               Spliterator.IMMUTABLE,
+                                               Spliterator.ORDERED);
+----
+
 [[assertj-core-3.14.0-as-instance-of-assert-factory]]
 [.release-note-item]#Add syntax sugar `as(InstanceOfAssertFactory)` to `Assertions` and `WithAssertions` for improved readability#
 
@@ -111,6 +158,7 @@ Example:
 [source,java,indent=0]
 ----
 Jedi yoda = new Jedi("Yoda", "Green");
+
 assertThat(yoda).extracting(Jedi::getName, as(InstanceOfAssertFactories.STRING))
                 .startsWith("Yo");
 ----
@@ -205,7 +253,7 @@ public void host_dinner_party_where_nobody_dies() {
 ----
 
 [[assertj-core-3.14.0-throwable-assertions-string-format]]  
-[.release-note-item]#Add String.format support for expected message in hasMessageStartingWith, hasMessageContaining, hasMessageEndingWith and hasStackTraceContaining assertions#
+[.release-note-item]#Add `String.format` support for expected message in `hasMessageStartingWith`, `hasMessageContaining`, `hasMessageEndingWith` and `hasStackTraceContaining` assertions#
 
 Instead of taking a simple `String` the assertions mentioned above now accept a `String.format` like parameters, i.e. `(String description, Object... parameters)` making it easier to build more involved expected strings.
 
@@ -318,34 +366,6 @@ assertThat(throwable).hasRootCauseMessage("another message");
 assertThat(throwable).hasRootCauseMessage("%s", "message");
 // no root cause message
 assertThat(new Throwable()).hasRootCauseMessage("%s %s", "expected", "message");
-----
-
-[[assertj-core-3.14.0-bdd-assumptions]]
-[.release-note-item]#Add BDD assumptions#
-
-Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
-
-The difference with the Assumptions class is that entry point methods are named `given` instead of `assumeThat`.
-
-Example:
-[source,java,indent=0]
-----
-String hobbit = "HOBBIT";
-List<String> fellowshipOfTheRing = list("Aragorn", "Gandalf", "Frodo", "Legolas");
-
-@Test
-public void given_the_assumption_is_not_met_the_test_is_skipped() {
-  given(hobbit).isEqualTo("ORC");
-  // ... following code is not executed, the test is skipped
-  then(fellowshipOfTheRing).contains("Sauron");
-}
-
-@Test
-public void given_the_assumption_is_met_the_test_is_executed() {
-  given(hobbit).isEqualTo("HOBBIT");
-  // ... following code is executed and fails!
-  then(fellowshipOfTheRing).doesNotContain("Sauron");
-}
 ----
 
 [[assertj-core-3.14.0-hamcrest-matching]]
