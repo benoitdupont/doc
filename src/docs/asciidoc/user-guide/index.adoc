@@ -51,7 +51,13 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 [[assertj-core-3.14.0-new-features]]
 [.release-note-category]#icon:plus-circle[] New features#
 
+[[assertj-core-3.14.0-]]
+[.release-note-item]#`Add `isEmpty` and `isNotEmpty` assertions for files#
+
+
 - Add link:#assertj-core-3.14.0-bdd-assumptions[BDD assumptions]. (Gonzalo Müller Bravo)
+- Add link:#assertj-core-3.14.0-isEmpty-isNotEmpty-file-assertions[`isEmpty` and `isNotEmpty`] file assertions. (Stephen O'Rourke)
+- Avoid BDDMockito/BDDAssertions `then(object)` clash with link:#assertj-core-3.14.0-bdd-assertions-and[`and.then(object)`] method. (Gonzalo Müller Bravo)
 - Add link:#assertj-core-3.14.0-spliterator-assertions[`Spliterator` assertions]. (William Bakker)
 - Add link:#assertj-core-3.14.0-hasRootCauseMessage[`hasRootCauseMessage`] to `Throwable` assertions. (Oleksii Khomchenko)
 - Add syntax sugar link:#assertj-core-3.14.0-as-instance-of-assert-factory[`as(InstanceOfAssertFactory)`] to `Assertions` and `WithAssertions` for improved readability. (Stefano Cordio)
@@ -109,7 +115,7 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 
 Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
 
-The difference with the Assumptions class is that entry point methods are named `given` instead of `assumeThat`.
+The difference with the `Assumptions` class is that entry point methods are named `given` instead of `assumeThat`.
 
 Example:
 [source,java,indent=0]
@@ -129,6 +135,36 @@ public void given_the_assumption_is_met_the_test_is_executed() {
   given(hobbit).isEqualTo("HOBBIT");
   // ... following code is executed and fails!
   then(fellowshipOfTheRing).doesNotContain("Sauron");
+}
+----
+
+[[assertj-core-3.14.0-bdd-assertions-and]]
+[.release-note-item]#Avoid BDDMockito/BDDAssertions `then(object)` clash with `and.then(object)`#
+
+To avoid clash with libraries like Mockito that exposes a static `then(object)` method, you can statically use the `and` field.
+
+[source,java,indent=0]
+----
+import static org.mockito.BDDMockito.then;
+// can't use import static org.assertj.core.api.BDDAssertions.then because of BDDMockito.then;
+import static org.assertj.core.api.BDDAssertions.and;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+
+// suppress and.then warning: The static method BDDAssertions.then() should be accessed in a static way
+@SuppressWarnings("static-access")
+@Test
+public void bdd_assertions_with_bdd_mockito() {
+  // GIVEN
+  Person person = mock(Person.class)
+  // WHEN
+  person.ride(bike);
+  person.ride(bike);
+  // THEN
+  // mockito then()
+  then(person).should(times(2)).ride(bike);
+  // use AssertJ and.then(person) as then(person) would clash with mockito then(person)
+  and.then(person.hasBike()).isTrue();
 }
 ----
 
@@ -424,6 +460,25 @@ leia.setRelation("brother", luke);
 assertThat(luke).extracting("name.last", "attributes.side", 
                             "relations.sister", "relations.sister.relations.brother")
                 .containsExactly("Skywalker", "light", leia, luke);
+----
+
+[[assertj-core-3.14.0-isEmpty-isNotEmpty-file-assertions]]
+[.release-note-item]#Add `isEmpty` and `isNotEmpty` file assertions#
+
+Verify that the actual `File` is empty (i.e. the file size = 0) or not empty (i.e. the file size > 0) .
+
+Examples:
+[source,java,indent=0]
+----
+File file = File.createTempFile("tmp", "txt");
+
+// assertion will pass
+assertThat(file).isEmpty();
+
+Files.write(file.toPath(), new byte[]{1, 1});
+
+// assertion will pass
+assertThat(file).isNotEmpty();
 ----
 
 ==== AssertJ Core 3.13.2 Release notes
