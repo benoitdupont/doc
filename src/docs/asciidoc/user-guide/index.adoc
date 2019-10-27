@@ -65,6 +65,9 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 - Add `extractingByKey(KEY)` and `extractingByKeys(KEY...)` to `Map` assertions. (Stefano Cordio)
 - Add link:#assertj-core-3.14.0-map-extracting-by-key[`extractingByKey(KEY, InstanceOfAssertFactory)`] to `Map` assertions. (Stefano Cordio)
 - Add link:#assertj-core-3.14.0-optional-get[`get(InstanceOfAssertFactory)`] to `Optional` assertions. (Stefano Cordio)
+- Add link:#assertj-core-3.14.0-iterable-first[`first(InstanceOfAssertFactory)`] to `Iterable` assertions. (Stefano Cordio)
+- Add link:#assertj-core-3.14.0-iterable-last[`last(InstanceOfAssertFactory)`] to `Iterable` assertions. (Stefano Cordio)
+- Add link:#assertj-core-3.14.0-iterable-element[`element(int, InstanceOfAssertFactory)`] to `Iterable` assertions. (Stefano Cordio)
 - Add IntelliJ IDEA regexp smart to AssertJ methods taking regexes. (Jonas Berlin)
 - Add `String.format` support for link:#assertj-core-3.14.0-throwable-assertions-string-format[expected message] in `hasMessageStartingWith`, `hasMessageContaining`, `hasMessageEndingWith` and `hasStackTraceContaining` assertions.  (Krishna Chaithanya Ganta)
 
@@ -402,6 +405,75 @@ assertThat(optional).get(as(InstanceOfAssertFactories.STRING))
 // The following assertion will fail as the value is not an Integer:
 assertThat(optional).get(as(InstanceOfAssertFactories.INTEGER))
                     .isZero();
+----
+
+[[assertj-core-3.14.0-iterable-first]]
+[.release-note-item]#Add `first` with `InstanceOfAssertFactory` parameters to `Iterable` assertions#
+
+Navigates and allows to perform assertions on the first element of the `Iterable` under test.
+The `InstanceOfAssertFactory` parameter is used to get the assertions narrowed to the factory type.
+
+Examples:
+[source,java,indent=0]
+----
+Iterable<String> hobbits = newArrayList("Frodo", "Sam", "Pippin");
+
+// assertion succeeds
+assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Fro")
+                   .endsWith("do");
+// assertion fails
+assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Pip");
+// assertion fails because of wrong factory type
+assertThat(hobbits).first(as(InstanceOfAssertFactories.INTEGER))
+                   .isZero();
+----
+
+[[assertj-core-3.14.0-iterable-last]]
+[.release-note-item]#Add `last` with `InstanceOfAssertFactory` parameters to `Iterable` assertions#
+
+Navigates and allows to perform assertions on the last element of the `Iterable` under test.
+The `InstanceOfAssertFactory` parameter is used to get the assertions narrowed to the factory type.
+
+Examples:
+[source,java,indent=0]
+----
+Iterable<String> hobbits = newArrayList("Frodo", "Sam", "Pippin");
+
+// assertion succeeds
+assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Pip")
+                   .endsWith("pin");
+// assertion fails
+assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Fro");
+// assertion fails because of wrong factory type
+assertThat(hobbits).last(as(InstanceOfAssertFactories.INTEGER))
+                   .isZero();
+----
+
+[[assertj-core-3.14.0-iterable-element]]
+[.release-note-item]#Add `element` with `InstanceOfAssertFactory` parameters to `Iterable` assertions#
+
+Navigates and allows to perform assertions on the chosen element of the `Iterable` under test.
+The `InstanceOfAssertFactory` parameter is used to get the assertions narrowed to the factory type.
+
+Examples:
+[source,java,indent=0]
+----
+Iterable<String> hobbits = newArrayList("Frodo", "Sam", "Pippin");
+
+// assertion succeeds
+assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Sa")
+                   .endsWith("am");
+// assertion fails
+assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
+                   .startsWith("Fro");
+// assertion fails because of wrong factory type
+assertThat(hobbits).element(1, as(InstanceOfAssertFactories.INTEGER))
+                   .isZero();
 ----
 
 [[assertj-core-3.14.0-throwable-assertions-string-format]]  
