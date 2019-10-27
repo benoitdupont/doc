@@ -41,7 +41,7 @@ Release date : 2019-xx-xx
 [[assertj-core-3.14.0-contributors]]
 [.release-note-category]#icon:user[] Contributors#
 
-Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Sven Johansson, William Bakker, Rob Spieldenner, Raymond Pressly and Clemens Grabmann.
+Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, Jonas Berlin, Thami Inaflas, Geoffrey Arthaud, Carter Kozak, Kevin Toublanc, Krishna Chaithanya Ganta,sowmiyamuthuraman, Edgar Asatryan, Oleksii Khomchenko, Gonzalo Müller Bravo, Stephen O'Rourke, Sven Johansson, William Bakker, Rob Spieldenner, Raymond Pressly, Michael Keppler and Clemens Grabmann.
 
 [[assertj-core-3.14.0-breaking-changes]]
 [.release-note-category]#icon:exclamation-triangle[] Breaking changes#
@@ -103,6 +103,7 @@ Thanks to all the contributors of this release: Erhard Pointl, Stefano Cordio, J
 - Fix `hasSizeBetween()` that did not work with strings. (Geoffrey Arthaud)
 - Fix failing soft assertions when combined with `asInstanceOf`.
 - Fix missing soft assertions proxying for `get` of `OptionalAssert`. (Stefano Cordio)
+- Make `convert-junit-assertions-to-assertj.sh` conversion script work on Windows. (Michael Keppler)
 
 [[assertj-core-3.14.0-deprecated]]
 [.release-note-category]#icon:ban[] Deprecated#
