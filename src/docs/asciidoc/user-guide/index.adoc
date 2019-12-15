@@ -29,6 +29,7 @@ NOTE: AssertJ Core would not exist without its contributors, you can find them a
 
 Latest release notes:
 
+- link:#assertj-core-3-15-0-release-notes[AssertJ Core 3.15.0]
 - link:#assertj-core-3-14-0-release-notes[AssertJ Core 3.14.0]
 - link:#assertj-core-3-13-2-release-notes[AssertJ Core 3.13.2]
 - link:#assertj-core-3-13-1-release-notes[AssertJ Core 3.13.1]
@@ -36,6 +37,43 @@ Latest release notes:
 - link:#assertj-core-3-12-2-release-notes[AssertJ Core 3.12.2]
 - link:#assertj-core-3-12-1-release-notes[AssertJ Core 3.12.1]
 - link:#assertj-core-3-12-0-release-notes[AssertJ Core 3.12.0]
+
+[[assertj-core-3-15-0-release-notes]]
+==== AssertJ Core 3.15.0
+
+Release date : 20xx-xx-xx
+
+[[assertj-core-3.15.0-contributors]]
+[.release-note-category]#icon:user[] Contributors#
+
+Thanks to all the contributors of this release: Stefano Cordio and xxx.
+
+[[assertj-core-3.15.0-breaking-changes]]
+[.release-note-category]#icon:exclamation-triangle[] Breaking changes#
+
+- 
+
+[[assertj-core-3.15.0-new-features]]
+[.release-note-category]#icon:plus-circle[] New features#
+
+- Add link:#assertj-core-3.15.0-xxx[xxx]. (xxx)
+
+[[assertj-core-3.15.0-improvements]]
+[.release-note-category]#icon:arrow-circle-up[] Improvements#
+
+- TBC
+
+[[assertj-core-3.15.0-fixed]]
+[.release-note-category]#icon:wrench[] Fixed#
+
+- Fix.. 
+
+[[assertj-core-3.15.0-deprecated]]
+[.release-note-category]#icon:ban[] Deprecated#
+
+- Deprecate..
+
+
 
 [[assertj-core-3-14-0-release-notes]]
 ==== AssertJ Core 3.14.0
